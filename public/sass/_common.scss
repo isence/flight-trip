@@ -1,0 +1,30 @@
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.row{
+  @include clearfix;
+  .col{
+    float: left;
+  }
+  .col-6{
+    width: 50%;
+  }
+  .col-4{
+    width: 33.3333%;
+  }
+}
+
+.hide{
+  display: none;
+}
+.red{
+  color: red;
+}

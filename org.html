@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地址解析和智能搜索</title>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=sysY55E8d1bRFCIona4rAP0cOI3f1Vab"></script>
+</head>
+<body>
+<h2>1、地址解析Geocoder</h2>
+<input style="width:300px;" type="text" value="上海市浦东新区花木路" id="address_1" /><input value="地址解析" type="button" onclick="fun_geocoder_getPoint();" />（getPoint：需要输入详细到街道的地址）</br>
+<span style="display:inline-block;line-height:20px;width:300px;font-size:14px;border-bottom:1px solid #ccc;" type="text" id="address_2"></span><input value="反地址解析" type="button" onclick="fun_geocoder_getLocation();" />（getLocation：点击反地址解析后，点击地图返回地址。）</br>
+<h2>2、智能搜索Localsearch</h2>
+<input style="width:300px;" type="text" value="冀兴驾校" id="keyword_1" /><input value="智能搜索" type="button" onclick="fun_search();" />（search：在指定城市或全国内搜索关键词。）</br>
+<input style="width:300px;" type="text" value="肯德基" id="keyword_2" /><input value="视野内搜索" type="button" onclick="fun_searchInBounds();" />（searchInBound：在可视范围内搜索关键词内容）</br>
+<input style="width:100px;" type="text" value="银行" id="keyword_3_keywords" /><input style="width:75px;" type="text" value="116.381452" id="keyword_3_center_x" /><input style="width:75px;" type="text" value="39.914446" id="keyword_3_center_y" /><input style="width:50px;" type="text" value="500" id="keyword_3_radius" /><input value="周边搜索" type="button" onclick="fun_searchNearby();" />（searchNearby：中心点为字符串时，将自动忽略半径）</br>
+<div style="clear:both;margin:10px 0 0;"></div>
+<div style="width:520px;height:340px;border:1px solid gray;float:left;" id="container"></div>
+<div style="width:300px;height:340px;float:left;" id="results"></div>
+<div style="clear:both;"></div>
+<input type="button" onclick="map.clearOverlays();myLocalsearch.clearResults();" style="margin:10px 0 0;height:50px;width:100px;" value="洗刷地图" />  （清除地图上的覆盖物和检索结果）
+</body>
+</html>
+<script type="text/javascript">
+//以下两句话用来创建地图
+var map = new BMap.Map("container");    //创建地图容器
+map.centerAndZoom("北京市",12);         //初始化地图。设置中心点和地图级别
+
+//添加鱼骨控件
+map.addControl(new BMap.NavigationControl());
+
+//获取各个id的value
+/*
+var value_address_1 = document.getElementById("address_1").value;
+var value_keyword_1 = document.getElementById("keyword_1").value;
+var value_keyword_2 = document.getElementById("keyword_2").value;
+var value_keyword_3_keywords = document.getElementById("keyword_3_keywords").value;
+var value_keyword_3_center_x = document.getElementById("keyword_3_center_x").value;
+var value_keyword_3_center_y = document.getElementById("keyword_3_center_y").value;
+var value_keyword_3_radius = document.getElementById("keyword_3_radius").value;
+*/
+
+
+//创建地址解析的实例
+var myGeo = new BMap.Geocoder();
+//地址解析的函数
+function fun_geocoder_getPoint(){
+    var value_address_1 = document.getElementById("address_1").value;
+    myGeo.getPoint(value_address_1, function(point){
+      if (point) {
+        map.centerAndZoom(point, 15);
+        map.addOverlay(new BMap.Marker(point));
+      }
+    }, "全国");
+}
+//反地址解析的函数
+function fun_geocoder_getLocation(){
+    map.addEventListener("click", function(e){
+        var pt = e.point;
+        myGeo.getLocation(pt, function(rs){
+            var addComp = rs.addressComponents;
+            document.getElementById("address_2").innerHTML = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+        });
+    });
+}
+
+//智能搜索Localsearch类
+var options = {renderOptions: {map: map, panel: "results"}};
+var myLocalsearch = new BMap.LocalSearch(map,options);
+//模糊查询search方法
+function fun_search(){
+    var value_keyword_1 = document.getElementById("keyword_1").value;
+    myLocalsearch.search(value_keyword_1);
+}
+//视野内搜索searchInBounds方法
+function fun_searchInBounds(){
+    var value_keyword_2 = document.getElementById("keyword_2").value;
+    myLocalsearch.searchInBounds(value_keyword_2, map.getBounds());
+}
+//周边搜索fun_searchNearby方法
+function fun_searchNearby(){
+    var value_keyword_3_keywords = document.getElementById("keyword_3_keywords").value;
+    var value_keyword_3_center_x = document.getElementById("keyword_3_center_x").value;
+    var value_keyword_3_center_y = document.getElementById("keyword_3_center_y").value;
+    var value_keyword_3_radius = document.getElementById("keyword_3_radius").value;
+    myLocalsearch.searchNearby(value_keyword_3_keywords,new BMap.Point(value_keyword_3_center_x,value_keyword_3_center_y),value_keyword_3_radius);
+}
+</script>
+复制代码

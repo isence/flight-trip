@@ -1,0 +1,5 @@
+@import 'common';
+#search-list{margin:10px 0 0 350px;}
+.clrfix{
+	@include clearfix;
+}

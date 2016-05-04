@@ -1,0 +1,190 @@
+
+        <!-- Footer widget -->
+        <!-- Footer -->
+        <div class="footer-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <footer>
+                            <p>© 2016 <a href="#">N-Travel</a>. All rights reserved</p>
+                            <p>Designed by isence</p>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="login-popup-wrapper">
+
+            <div id="login-popup">
+                <%- locals.message %>
+                <h2>login Panel</h2>
+                <form method="get">
+                    <input type="text" value="" id="username" placeholder="kavinhieu@gmail.com" />
+                    <input type="text" value="" id="password" placeholder="Password" />
+                    <input type="submit" value="sıgn ın" id="login-button" />
+                </form>
+                <a href="#" class="close">Close</a>
+            </div>
+        </div>
+        <!-- Scripts -->
+        <script src="js/jquery-1.7.1.min.js"></script>
+        <script src="js/jquery.flexslider-min.js"></script>
+        <!-- <script src="js/jquery.elastislide.js"></script>
+        <script src="js/jquery.carouFredSel-6.0.4-packed.js"></script>
+        <script src="js/jcarousellite_1.0.1.js"></script> -->
+        <script src="js/jquery.cycle.all.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!-- <script src="js/jquery.isotope.min.js"></script> -->
+        <script src="js/jquery.tinyscrollbar.min.js"></script>
+        <!-- <script src="js/sidebar.js"></script> -->
+        <script>
+        function goToByScroll(id) {
+            $ = jQuery;
+            $('html,body').animate({
+                scrollTop: $("#" + id).offset().top
+            }, 500);
+        }
+        </script>
+        <script type="text/javascript">
+        $(function(){
+            $('.scrollbar1').tinyscrollbar();
+            $('#search').click(function(event) {
+                search();
+            });
+            //搜索航班
+            $('#searchFlight').click(function(event) {
+                searchFlight();
+            });
+            //搜索景点
+            $('#searchBack').click(function(event) {
+                var homecity_name = $('#homecity_name').val();
+                var getcity_name = $('#getcity_name').val();
+                $('#homecity_name').val(getcity_name);
+                $('#getcity_name').val(homecity_name);
+                searchFlight();
+            });
+            $('.sight_item_do').each(function(index, el) {
+                $(this).hover(function() {
+                    var top = $(this).offset().top;
+                    var left = $(this).offset().left;
+                    $('#origin-add-menu').offset();
+                }, function() {
+                    /* Stuff to do when the mouse leaves the element */
+                });
+            });
+        });
+        function login(){
+            var username = $('#username').val(),password = $('#password').val();
+            var data = { "uname": username, "upwd":password};
+            $.ajax({
+                url:'/login',
+                type:'POST',
+                data:data,
+                success:function(data,status){
+                    if(status == 'success'){
+                        location.href='home';
+                    }
+                },
+                error:function(data,status){
+                  if(status == "error"){
+                      location.href='login';
+                  }
+                }
+            });
+        }
+        function register(){
+            var name = $('#username').val(),
+                    password = $('#password').val();
+            var data = { "uname": name, upwd:password};
+            $.ajax({
+                url:'/register',
+                type:'POST',
+                data:data,
+                success:function(data,status){
+                    if(status == 'success'){
+                        location.href='login';
+                    }
+                },
+                error:function(data,err){
+                    location.href='register';
+                }
+            });
+        };
+        function search(){
+            var destination =encodeURI($('#Descity').val());
+            var data = { "destination": destination};
+            $.ajax({
+                url:'/search',
+                type:'POST',
+                data:data,
+                dataType: "json",
+                success:function(data,status){
+                    if(status == 'success'){
+                        //console.log(data.data);
+                        $('#search-list .sight_item_detail').each(function(index, el) {
+                            $(this).find('.sight_item_caption a').text(data.data.sightList[index].sightName);
+                            $(this).find('.level').text(data.data.sightList[index].star);
+                            $(this).find('.address.color999 span').text(data.data.sightList[index].address);
+                            $(this).find('.area a').text(data.data.sightList[index].districts);
+                            $(this).find('.sight_item_price em').text(data.data.sightList[index].qunarPrice);
+                            $(this).find('.sight_item_discount').text(data.data.sightList[index].discount);
+                            $(this).find('.sight_item_source').text(data.data.sightList[index].marketPrice);
+                            $(this).find('.intro.color999').text(data.data.sightList[index].intro);
+                            //console.log($(this).find('.show.loading .img_opacity ').css('src'));
+                            $(this).find('.show.loading .img_opacity ').attr('src', data.data.sightList[index].sightImgURL);
+                        });
+                    }
+                },
+                error:function(data,err){
+                    //alert(12);
+                }
+            });
+        }
+        function searchFlight(){
+            var homecity_name =encodeURI($('#homecity_name').val());
+            var getcity_name =encodeURI($('#getcity_name').val());
+            //var datepicker =encodeURI(formatDate($('#datepicker').val()));
+            //var clender =encodeURI(formatDate($('#clender').val()));
+            //var data = { "homecity_name": homecity_name,"getcity_name": getcity_name,"datepicker": datepicker,"clender": clender};
+            var data = { "homecity_name": homecity_name,"getcity_name": getcity_name};
+            $.ajax({
+                url:'/searchFlight',
+                type:'POST',
+                data:data,
+                dataType: "json",
+                success:function(data,status){
+                    //data = JSON.parse(data.slice(15, -3));
+                    console.log(data);
+                    if(status == 'success'){
+                        $('.flight-item-tr').each(function(index, el) {
+                           $(this).find('.J_line.J_TestFlight').text(data.result[index].complany);
+                           $(this).find('.line-name').text(data.result[index].name);
+                           $(this).find('.flight-time-deptime').text(data.result[index].DepTime);
+                           $(this).find('.s-time').text(data.result[index].ArrTime);
+                           $(this).find('.port-dep').text(data.result[index].startAirport);
+                           $(this).find('.port-arr').text(data.result[index].endAirport);
+                           $(this).find('.flight-ontime-rate p').text(data.result[index].OnTimeRate);
+                           $(this).find('.flight-price p').text(data.result[index].FlyTime);
+                        });
+                    }
+                },
+                error:function(data,err){
+                    alert(12);
+                }
+            });
+
+        }
+        function formatDate(date){
+            if(date!==''){
+                var arr = date.split('/');
+                return arr[2]+'-'+arr[1]+'-'+arr[0];
+            }
+            
+        }
+        </script>
+        <script src="js/custom.js"></script>
+</body>
+
+</html>

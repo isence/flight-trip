@@ -1,0 +1,28 @@
+.row:before, .row:after {
+  content: " ";
+  display: table; }
+.row:after {
+  clear: both; }
+.row .col {
+  float: left; }
+.row .col-6 {
+  width: 50%; }
+.row .col-4 {
+  width: 33.3333%; }
+
+.hide {
+  display: none; }
+
+.red {
+  color: red; }
+
+#search-list {
+  margin: 10px 0 0 350px; }
+
+.clrfix:before, .clrfix:after {
+  content: " ";
+  display: table; }
+.clrfix:after {
+  clear: both; }
+
+/*# sourceMappingURL=my_style.css.map */
