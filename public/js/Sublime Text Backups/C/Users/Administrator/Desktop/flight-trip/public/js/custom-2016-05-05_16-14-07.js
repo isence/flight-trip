@@ -121,28 +121,19 @@ jQuery(document).ready(function() {
 			trip[dayId] = dayTrip;
 		});
 		renderList(trip);
-
-		$('#search-list').hide();
-		$('.content-bd').show();
+		console.log(trip);
 	});
-	//获取某个日期，过n天后的日期
-   /**
-     * [renderList description]
-     * @author suanning
-     * @param  {[object]} trip [行程列表生成的对象，也可以数据库导入的对象]
-     * @return
-     */
 	function renderList(trip){
 		var contentList = $('.content-bd');
 		contentList.empty();
 		for (var day in trip) {
 			var appendDiv = '<div class="everyday-box"> <div class="stock-day"> <em><b>'+day+'</b></em> <h2 class="stocklist">';
-				for (var des in trip[day]){
-					appendDiv += '<span>'+trip[day][des].sight+'</span> <img src="/images/plan/show/right-arrow.png">';
+				for (var des in day){
+					appendDiv += '<span>'+des.sight+'</span> <img src="/images/plan/show/right-arrow.png">';
 				}
-				appendDiv +='</h2> </div> <div class="stock">';
+				appendDiv +='</h2> </div> <div class="stock"> ';
 				for (var des in trip[day]){
-					appendDiv += '<div class="stock-info"> <span class="index">'+trip[day][des].num+'</span> <div class="row"> <div class="title mleft60"> <img src="'+trip[day][des].img+'"> <div class="summary"> <h3 class="name"> <span class="spot-name">'+trip[day][des].sight+'</span> </h3> <div class="address"> '+trip[day][des].address+' </div> </div> </div> </div> </div>';
+					appendDiv += '<div class="stock-info"> <span class="index">'+trip[day][des].num+'</span> <div class="row"> <div class="title mleft60"> <img src="'+trip[day][des].img+'"> <div class="summary"> <h3 class="name"> <span class="spot-name">'+trip[day][des].sight+'</span> </h3> <div class="address"> 地址:'+trip[day][des].address+' </div> </div> </div> </div> </div>';
 				}
 				appendDiv += '</div> </div>'
       			contentList.append(appendDiv);
@@ -248,8 +239,6 @@ jQuery(document).ready(function() {
 						$(this).find('.intro.color999').text(data.data.sightList[index].intro);
 						$(this).find('.show.loading .img_opacity ').attr('src', data.data.sightList[index].sightImgURL);
 						clearDayList();
-						$('#search-list').show();
-						$('.content-bd').hide();
 					});
 				}
 			},

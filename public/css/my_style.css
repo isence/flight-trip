@@ -17,7 +17,9 @@
   color: red; }
 
 #search-list {
-  margin: 10px 0 0 350px; }
+  margin: 10px 0 0 350px;
+  display: none;
+  }
 
 .clrfix:before, .clrfix:after {
   content: " ";

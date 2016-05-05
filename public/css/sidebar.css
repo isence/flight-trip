@@ -885,12 +885,14 @@ li .message_box a:hover,li .users_fun a:hover,li .menu_uers .users_fun_on {
 .items-panel h2 a {
     margin-left: 5px;
     font-size: 14px;
-    color: #f70
 }
-a#clear-list {
+a#create-list {
+    right: 97px;
+}
+a.list-btn{
     color: #fff;
     position: absolute;
-    right: 3px;
+    right: 18px;
     top: 3px;
     height: 20px;
     line-height: 20px;

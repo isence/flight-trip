@@ -31,7 +31,7 @@ jQuery(document).ready(function() {
 	//初始化行程列表
 	initDayList(5);
 	//初始化行程添加列表的天数
-	//initAddList();
+	initAddList();
 	//搜索景点
 	$('#search').click(function(event) {
 		search();
@@ -96,57 +96,33 @@ jQuery(document).ready(function() {
 		var day = $(this).index()-1;
 		var destination = addParent.find('.sight_item_caption a').text();
 		var address = addParent.find('.address  span').text();
-		var img = addParent.find('.show img').attr('src');
 		var thisDay = $(".day-list:eq("+day+")");
 		var count = thisDay.find('li').length;
-		thisDay.append('<li class="sight"> <span class="destination-name"><em class="ball ball-red">'+count+'</em><a href="javascript:;" class="item-name"data-address="'+address+'" data-img="'+img+'">'+destination+'</a></span></li>')
+		thisDay.append('<li class="sight"> <span class="destination-name"><em class="ball ball-red">'+count+'</em><a href="javascript:;" class="item-name"data-address="'+address+'">'+destination+'</a></span></li>')
 		$('#origin-add-menu').hide();
 		thisDay.find('.count').text(count);
 	});
 	//生成行程列表
 	$('#create-list').click(function(event) {
-		var trip = {};
-		$('.day-container').each(function(index, el) {
-			var dayId = 'day'+(index+1);
-			var dayTrip = {};
-			$(this).find('li.sight').each(function(index, el) {
-				var tripId = 'trip'+(index+1);
-				var des = {};
-				des.sight = $(this).find('a').text();;
-				des.num = (index+1);
-				des.address = $(this).find('a').attr('data-address');
-				des.img = $(this).find('a').attr('data-img');
-				dayTrip[tripId] = des;
-			});
-			trip[dayId] = dayTrip;
-		});
-		renderList(trip);
-
-		$('#search-list').hide();
-		$('.content-bd').show();
-	});
-	//获取某个日期，过n天后的日期
-   /**
-     * [renderList description]
-     * @author suanning
-     * @param  {[object]} trip [行程列表生成的对象，也可以数据库导入的对象]
-     * @return
-     */
-	function renderList(trip){
 		var contentList = $('.content-bd');
 		contentList.empty();
-		for (var day in trip) {
-			var appendDiv = '<div class="everyday-box"> <div class="stock-day"> <em><b>'+day+'</b></em> <h2 class="stocklist">';
-				for (var des in trip[day]){
-					appendDiv += '<span>'+trip[day][des].sight+'</span> <img src="/images/plan/show/right-arrow.png">';
-				}
-				appendDiv +='</h2> </div> <div class="stock">';
-				for (var des in trip[day]){
-					appendDiv += '<div class="stock-info"> <span class="index">'+trip[day][des].num+'</span> <div class="row"> <div class="title mleft60"> <img src="'+trip[day][des].img+'"> <div class="summary"> <h3 class="name"> <span class="spot-name">'+trip[day][des].sight+'</span> </h3> <div class="address"> '+trip[day][des].address+' </div> </div> </div> </div> </div>';
-				}
-				appendDiv += '</div> </div>'
-      			contentList.append(appendDiv);
-    	}
+		var trip = {};
+		$('.day-container').each(function(index, el) {
+			var appendDiv = '<div class="everyday-box"> <div class="stock-day"> <em><b>D'+(index+1)+'</b></em> <h2 class="stocklist">';
+			$(this).find('li.sight').each(function(index, el) {
+
+				var sight = $(this).find('a').text();
+				trip[index].sight = sight;
+				appendDiv += '<span>'+sight+'</span><img src="/images/plan/show/right-arrow.png">';
+			});
+			console.log(trip);
+			appendDiv += '</h2></div></div>';
+			contentList.append(appendDiv);
+			renderList();
+		});
+	});
+	function renderList(){
+
 	}
 	//根据日期间隔天数，生成行程规划列表
 		/**
@@ -248,8 +224,6 @@ jQuery(document).ready(function() {
 						$(this).find('.intro.color999').text(data.data.sightList[index].intro);
 						$(this).find('.show.loading .img_opacity ').attr('src', data.data.sightList[index].sightImgURL);
 						clearDayList();
-						$('#search-list').show();
-						$('.content-bd').hide();
 					});
 				}
 			},

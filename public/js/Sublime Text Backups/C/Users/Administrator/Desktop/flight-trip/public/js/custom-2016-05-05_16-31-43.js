@@ -140,7 +140,7 @@ jQuery(document).ready(function() {
 				for (var des in trip[day]){
 					appendDiv += '<span>'+trip[day][des].sight+'</span> <img src="/images/plan/show/right-arrow.png">';
 				}
-				appendDiv +='</h2> </div> <div class="stock">';
+				appendDiv +='</h2> </div> <div class="stock"> ';
 				for (var des in trip[day]){
 					appendDiv += '<div class="stock-info"> <span class="index">'+trip[day][des].num+'</span> <div class="row"> <div class="title mleft60"> <img src="'+trip[day][des].img+'"> <div class="summary"> <h3 class="name"> <span class="spot-name">'+trip[day][des].sight+'</span> </h3> <div class="address"> '+trip[day][des].address+' </div> </div> </div> </div> </div>';
 				}
