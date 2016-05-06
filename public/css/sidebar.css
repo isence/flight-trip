@@ -795,7 +795,7 @@ li .message_box a:hover,li .users_fun a:hover,li .menu_uers .users_fun_on {
     width: 326px;
     height: 350px;
     left: 1px;
-    top: 306px;
+    top: 1px;
     border-right: 1px solid #dfdfdf;
     box-shadow: 5px 2px 5px rgba(0,0,0,0.1);
     padding-right: 5px;

@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
 	//初始化行程添加列表的天数
 	//initAddList();
 	//搜索景点
-	$('#search').click(function(event) {
+	$('#search,#edit').click(function(event) {
 		search();
 	});
 	//清空景点
@@ -120,10 +120,36 @@ jQuery(document).ready(function() {
 			});
 			trip[dayId] = dayTrip;
 		});
+		$(this).data('trip',trip);
+		console.log(trip);
 		renderList(trip);
-
+		$('.flight-list').hide();
 		$('#search-list').hide();
 		$('.content-bd').show();
+	});
+	//保存行程至数据库
+	$('#save').click(function(event) {
+		var username = $('#user-detail').text(),
+			trip = $('#create-list').data('trip');
+		var data = {
+			"uname": username,
+			"trip": trip
+		};
+		$.ajax({
+			url: '/save',
+			type: 'POST',
+			data: data,
+			success: function(data, status) {
+				if (status == 'success') {
+					alert('已保存');
+				}
+			},
+			error: function(data, status) {
+				if (status == "error") {
+					alert('保存失败，请重试');
+				}
+			}
+		});
 	});
 	//获取某个日期，过n天后的日期
    /**
@@ -134,7 +160,7 @@ jQuery(document).ready(function() {
      */
 	function renderList(trip){
 		var contentList = $('.content-bd');
-		contentList.empty();
+		contentList.find('.everyday-box').remove();
 		for (var day in trip) {
 			var appendDiv = '<div class="everyday-box"> <div class="stock-day"> <em><b>'+day+'</b></em> <h2 class="stocklist">';
 				for (var des in trip[day]){
@@ -142,9 +168,9 @@ jQuery(document).ready(function() {
 				}
 				appendDiv +='</h2> </div> <div class="stock">';
 				for (var des in trip[day]){
-					appendDiv += '<div class="stock-info"> <span class="index">'+trip[day][des].num+'</span> <div class="row"> <div class="title mleft60"> <img src="'+trip[day][des].img+'"> <div class="summary"> <h3 class="name"> <span class="spot-name">'+trip[day][des].sight+'</span> </h3> <div class="address"> '+trip[day][des].address+' </div> </div> </div> </div> </div>';
+					appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><div class="row"><div class="title mleft60"><img src="'+trip[day][des].img+'"><div class="summary"><h3 class="name"><span class="spot-name">'+trip[day][des].sight+'</span></h3><div class="address"> '+trip[day][des].address+'</div></div></div></div></div>';
 				}
-				appendDiv += '</div> </div>'
+				appendDiv += '</div></div>'
       			contentList.append(appendDiv);
     	}
 	}
@@ -289,6 +315,8 @@ jQuery(document).ready(function() {
 						$(this).find('.flight-price p').text(data.result[index].FlyTime);
 					});
 				}
+				$('.flight-list').show();
+				$('.content-bd').hide();
 			},
 			error: function(data, err) {
 				alert(12);
