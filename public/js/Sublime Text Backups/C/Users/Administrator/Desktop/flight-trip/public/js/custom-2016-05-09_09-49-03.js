@@ -21,24 +21,17 @@ jQuery(document).ready(function() {
 	$("#clender").datepicker();
 	$('.scrollbar1').tinyscrollbar();
 	//初始化日期
-	init();
-	function init(){
-		initDate();
-		//初始化行程列表
-		initDayList(5);
-		//初始化主模块高度
-		var height = $(window).height()-143;
-		$('.flexslider').height(height);
-		//初始化搜索框位置
-		var left =$('.flexslider').offset().left;
-		$('.sidebar,#accordion').css('left', left);
-	}
+	initDate();
 	function initDate (){
 		var newDate = new Date();
 		var start = newDate.getFullYear()+'-'+(newDate.getMonth()+1)+'-'+newDate.getDate();
 		$('#datepicker').val(start);
 		$('#clender').val(GetDateStr(start,5));
 	}
+	//初始化行程列表
+	initDayList(5);
+	//初始化行程添加列表的天数
+	//initAddList();
 	//搜索景点
 	$('#search,#edit').click(function(event) {
 		search();
@@ -77,45 +70,36 @@ jQuery(document).ready(function() {
 
 	//显示添加列表的位置
 	var addParent = '';
-	function hover(){
-		$('.sight_item_do').each(function(index, el) {
-			$(this).hover(function() {
-				addParent = $(this).parents('.sight_item_detail').length>0 ? $(this).parents('.sight_item_detail') : $(this).parents('.flight-item-tr');
-				var add_menu = $('#origin-add-menu');
-				var top = $(this).offset().top + 33;
-				var left = $(this).offset().left;
-				add_menu.show();
-				add_menu.offset({
-					top: top,
-					left: left
-				});
-			}, function() {
-				setTimeout(200);
-				if ($('#origin-add-menu :hover').length === 0) {
-					$('#origin-add-menu').hide();
-				}
+	$('.sight_item_do').each(function(index, el) {
+		$(this).hover(function() {
+			addParent = $(this).parents('.sight_item_detail').length>0 ? $(this).parents('.sight_item_detail') : $(this).parents('.flight-item-tr');
+			var add_menu = $('#origin-add-menu');
+			var top = $(this).offset().top + 33;
+			var left = $(this).offset().left;
+			add_menu.show();
+			add_menu.offset({
+				top: top,
+				left: left
 			});
+		}, function() {
+			if ($('#origin-add-menu :hover').length === 0) {
+				$('#origin-add-menu').hide();
+			}
 		});
-	};
+	});
 	$('#origin-add-menu').hover(function() {}, function() {
 		$(this).hide();
 	});
 	//加入行程
 	$('#origin-add-menu dd').on('click', function(event) {
 		event.preventDefault();
-		var day = $(this).index();
+		var day = $(this).index()-1;
 		var destination = addParent.find('.sight_item_caption a').text();
 		var address = addParent.find('.address  span').text();
 		var img = addParent.find('.show img').attr('src');
 		var thisDay = $(".day-list:eq("+day+")");
 		var count = thisDay.find('li').length;
-		var qidian = $('#homecity_name').val();
-		var zhongdian = $('#getcity_name').val();
-		if (addParent.attr('class').indexOf('sight_item_detail')>-1) {
-			thisDay.append('<li class="sight"> <span class="destination-name"><em class="ball ball-red">'+count+'</em><a href="javascript:;" class="item-name"data-address="'+address+'" data-img="'+img+'">'+destination+'</a></span></li>');
-		} else {
-			thisDay.append('<li class="sight"><span class="qidian">'+qidian+'</span><img class="plane" src="/images/plan/edit/airportblue2.png"><span class="zhongdian">'+zhongdian+'</span><span class="time-msg">06:40</span></li>');
-		}
+		thisDay.append('<li class="sight"> <span class="destination-name"><em class="ball ball-red">'+count+'</em><a href="javascript:;" class="item-name"data-address="'+address+'" data-img="'+img+'">'+destination+'</a></span></li>')
 		$('#origin-add-menu').hide();
 		thisDay.find('.count').text(count);
 	});
@@ -141,8 +125,7 @@ jQuery(document).ready(function() {
 		renderList(trip);
 		$('.flight-list').hide();
 		$('#search-list').hide();
-		$('.content-bd.myList').hide();
-		$('.content-bd.tripList').show();
+		$('.content-bd').show();
 	});
 	//保存行程至数据库
 	$('#save').click(function(event) {
@@ -176,18 +159,18 @@ jQuery(document).ready(function() {
      * @return
      */
 	function renderList(trip){
-		var contentList = $('.content-bd.tripList');
+		var contentList = $('.content-bd');
 		contentList.find('.everyday-box').remove();
 		for (var day in trip) {
-			var appendDiv = '<div class="everyday-box"><div class="stock-day"><em><b>'+day+'</b></em><h2 class="stocklist">';
+			var appendDiv = '<div class="everyday-box"> <div class="stock-day"> <em><b>'+day+'</b></em> <h2 class="stocklist">';
 				for (var des in trip[day]){
 					appendDiv += '<span>'+trip[day][des].sight+'</span> <img src="/images/plan/show/right-arrow.png">';
 				}
-				appendDiv +='</h2></div><div class="stock">';
+				appendDiv +='</h2> </div> <div class="stock">';
 				for (var des in trip[day]){
 					appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><div class="row"><div class="title mleft60"><img src="'+trip[day][des].img+'"><div class="summary"><h3 class="name"><span class="spot-name">'+trip[day][des].sight+'</span></h3><div class="address"> '+trip[day][des].address+'</div></div></div></div></div>';
 				}
-				appendDiv +='</div></div>';
+				appendDiv += '</div></div>'
       			contentList.append(appendDiv);
     	}
 	}
@@ -205,7 +188,6 @@ jQuery(document).ready(function() {
 			var dateMsg = GetDateStr(startDate,(days-i));
 			$('.added-oneday').before('<div class="destination day-container" id="'+(days-i)+'"> <i class="u1 ui-circle-green fn-click-empty"></i> <ul class="list destination-list day-list ui-sortable"> <li class="title"> <h3 class="bg-green clearfix"> <span class="convert-block"> 第<span class="day-sequence">'+(days-i)+'</span>天 <em> (<span class="count">0</span>) </em> </span> <strong class="date-msg">'+dateMsg+' </strong> </h3> </li></ul></div>');
 		}
-		//初始化行程添加列表的天数
 		initAddList();
 	}
 	//初始化加入行程列表的天数
@@ -282,24 +264,20 @@ jQuery(document).ready(function() {
 			success: function(data, status) {
 				if (status == 'success') {
 					//console.log(data.data);
-					for (var i = 0; i < data.data.sightList.length; i++) {
-						$('#search-list').append('<div class = "sight_item_detail clrfix"><div class="sight_item_show"><div class="show loading"><div class="imgshadow"></div ><a data - click - type = "l_pic"target = "_blank"hidefocus = "true"title = "广州长隆旅游度假区" ><img class = "img_opacity load"src="'+data.data.sightList[i].sightImgURL+'"></a></div></div><div class="sight_item_about"><h3 class="sight_item_caption"><a data-click-type="l_title" class="name"  target="_blank" hidefocus="true">'+data.data.sightList[i].sightName+'</a></h3><div class="sight_item_info"><div class="clrfix"><span class="level">'+data.data.sightList[i].star+'</span><span class = "area"> [<a target = "_blank"hidefocus = "true"> '+data.data.sightList[i].districts+'</a>]</span ><div class = "sight_item_hot" ><span class = "product_star_level" ><em title = "热度3.5/5" ><span style = "width:70%;" > 热度3.5 / 5</span></em ></span><span class="sight_item_hot_text">热度：</span ></div></div><p class = "address color999" ><span> '+data.data.sightList[i].address+'</span><a href="javascript:void(0)" hidefocus="true" class="map_address blue" data-sightid="371131297">地图</a></p><div class="intro color999" >'+data.data.sightList[i].intro+'</div></div></div><div class="sight_item_pop"><table><tbody><tr><td><span class="sight_item_price"><i>￥</i><em>'+data.data.sightList[i].qunarPrice+'</em>&nbsp;起</span></td></tr><tr><td><span class="sight_item_discount">'+data.data.sightList[i].discount+'</span>&nbsp;&nbsp;&nbsp;<span class="sight_item_source">'+data.data.sightList[i].marketPrice+'</span></td></tr><tr><td><a  target="_blank" hidefocus="true" data-click-type="l_title" class="sight_item_do">加入行程&nbsp;<span>»</span></a></td></tr></tbody></table></div></div>');
-					}
-					// $('#search-list .sight_item_detail').each(function(index, el) {
-					// 	$(this).find('.sight_item_caption a').text(data.data.sightList[index].sightName);
-					// 	$(this).find('.level').text(data.data.sightList[index].star);
-					// 	$(this).find('.address.color999 span').text(data.data.sightList[index].address);
-					// 	$(this).find('.area a').text(data.data.sightList[index].districts);
-					// 	$(this).find('.sight_item_price em').text(data.data.sightList[index].qunarPrice);
-					// 	$(this).find('.sight_item_discount').text(data.data.sightList[index].discount);
-					// 	$(this).find('.sight_item_source').text(data.data.sightList[index].marketPrice);
-					// 	$(this).find('.intro.color999').text(data.data.sightList[index].intro);
-					// 	$(this).find('.show.loading .img_opacity ').attr('src', data.data.sightList[index].sightImgURL);
-					// 	clearDayList();
-					// });
-					$('#search-list').show();
-					hover();
-					$('.content-bd').hide();
+					$('#search-list .sight_item_detail').each(function(index, el) {
+						$(this).find('.sight_item_caption a').text(data.data.sightList[index].sightName);
+						$(this).find('.level').text(data.data.sightList[index].star);
+						$(this).find('.address.color999 span').text(data.data.sightList[index].address);
+						$(this).find('.area a').text(data.data.sightList[index].districts);
+						$(this).find('.sight_item_price em').text(data.data.sightList[index].qunarPrice);
+						$(this).find('.sight_item_discount').text(data.data.sightList[index].discount);
+						$(this).find('.sight_item_source').text(data.data.sightList[index].marketPrice);
+						$(this).find('.intro.color999').text(data.data.sightList[index].intro);
+						$(this).find('.show.loading .img_opacity ').attr('src', data.data.sightList[index].sightImgURL);
+						clearDayList();
+						$('#search-list').show();
+						$('.content-bd').hide();
+					});
 				}
 			},
 			error: function(data, err) {
@@ -327,24 +305,19 @@ jQuery(document).ready(function() {
 				//data = JSON.parse(data.slice(15, -3));
 				console.log(data);
 				if (status == 'success') {
-					for (var i = 0; i < data.result.length; i++) {
-						$('#J_FlightListBox').append('<div class="flight-list-item clearfix J_FlightItem" data-origin-no="0"><table><tbody><tr class="flight-item-tr"><td class="flight-line"><div class="pi-flightlogo-nl pi-flightlogo-nl-KN"><p class="airline-name"><span class="J_line J_TestFlight">'+data.result[i].complany+'</span></p><p class="line-name">'+data.result[i].name+'</p></div></td><td class="flight-time"><p class="flight-time-deptime">'+data.result[i].DepTime+'</p><p><span class="s-time">'+data.result[i].ArrTime+'</span></p></td><td class="flight-port"><div class="port-detail"><p class="port-dep">'+data.result[i].startAirport+'</p><p class="port-arr">'+data.result[i].endAirport+'</p></div></td><td class="flight-ontime-rate"><p>'+data.result[i].OnTimeRate+'</p></td><td class="flight-price "><p>'+data.result[i].FlyTime+'</p></td><td class="flight-operate"><a target="_blank" hidefocus="true" data-click-type="l_title" class="sight_item_do">加入行程&nbsp;<span>»</span></a></td></tr></tbody></table></div>');
-					}
-					// $('.flight-item-tr').each(function(index, el) {
-					// 	$(this).find('.J_line.J_TestFlight').text(data.result[index].complany);
-					// 	$(this).find('.line-name').text(data.result[index].name);
-					// 	$(this).find('.flight-time-deptime').text(data.result[index].DepTime);
-					// 	$(this).find('.s-time').text(data.result[index].ArrTime);
-					// 	$(this).find('.port-dep').text(data.result[index].startAirport);
-					// 	$(this).find('.port-arr').text(data.result[index].endAirport);
-					// 	$(this).find('.flight-ontime-rate p').text(data.result[index].OnTimeRate);
-					// 	$(this).find('.flight-price p').text(data.result[index].FlyTime);
-					// });
+					$('.flight-item-tr').each(function(index, el) {
+						$(this).find('.J_line.J_TestFlight').text(data.result[index].complany);
+						$(this).find('.line-name').text(data.result[index].name);
+						$(this).find('.flight-time-deptime').text(data.result[index].DepTime);
+						$(this).find('.s-time').text(data.result[index].ArrTime);
+						$(this).find('.port-dep').text(data.result[index].startAirport);
+						$(this).find('.port-arr').text(data.result[index].endAirport);
+						$(this).find('.flight-ontime-rate p').text(data.result[index].OnTimeRate);
+						$(this).find('.flight-price p').text(data.result[index].FlyTime);
+					});
 				}
 				$('.flight-list').show();
-				hover();
 				$('.content-bd').hide();
-				$('.content-bd.myList').hide();
 			},
 			error: function(data, err) {
 				alert(12);
