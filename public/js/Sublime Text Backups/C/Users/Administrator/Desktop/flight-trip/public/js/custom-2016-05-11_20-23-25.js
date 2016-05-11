@@ -356,7 +356,7 @@ jQuery(document).ready(function() {
      * @return {[number]} Inter_Days [两日期间隔天数]
      */
 	function compareDate(start,end){
-       if(start ===null||start.lengt===0||end===null||end.length===0){
+       if(start==null||start.length==0||end==null||end.length==0){
            return 0;
        }
        var arr=start.split("-");
@@ -388,4 +388,4 @@ jQuery(document).ready(function() {
 		    return y+"-"+m+"-"+d;
     	}
 	}
-});
+})
