@@ -29,8 +29,8 @@ jQuery(document).ready(function() {
 		$('.flexslider').height(height);
 		//初始化搜索框位置
 		var left =$('.flexslider').offset().left;
-		$('.sidebar,#accordion').css('left', left);
-		$('.gotop').css('left', left+1205);
+		$('.sidebar,#accordion').css('left', left+1200);
+		$('.gotop').css('left', left);
 	}
 	function initDate (){
 		var newDate = new Date();
@@ -40,7 +40,6 @@ jQuery(document).ready(function() {
 	}
 	//搜索景点
 	$('#search,#edit').click(function(event) {
-		$('.flexslider').animate({scrollTop:0});
 		search();
 	});
 	//加载更多景点
@@ -296,6 +295,7 @@ jQuery(document).ready(function() {
 					hover();
 					$('.content-bd').hide();
 					$('.flight-list').hide();
+					$('.flexslider').animate({scrollTop:0});
 					$('#search-list').show();
 				}
 			},
@@ -391,4 +391,4 @@ jQuery(document).ready(function() {
 		    return y+"-"+m+"-"+d;
     	}
 	}
-})
+});

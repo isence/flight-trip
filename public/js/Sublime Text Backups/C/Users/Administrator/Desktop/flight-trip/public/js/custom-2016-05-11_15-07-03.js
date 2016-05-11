@@ -30,7 +30,6 @@ jQuery(document).ready(function() {
 		//初始化搜索框位置
 		var left =$('.flexslider').offset().left;
 		$('.sidebar,#accordion').css('left', left);
-		$('.gotop').css('left', left+1205);
 	}
 	function initDate (){
 		var newDate = new Date();
@@ -40,7 +39,6 @@ jQuery(document).ready(function() {
 	}
 	//搜索景点
 	$('#search,#edit').click(function(event) {
-		$('.flexslider').animate({scrollTop:0});
 		search();
 	});
 	//加载更多景点
@@ -293,10 +291,11 @@ jQuery(document).ready(function() {
 					for (var i = 0; i < data.data.sightList.length; i++) {
 						$('#search-list').append('<div class = "sight_item_detail clrfix"><div class="sight_item_show"><div class="show loading"><div class="imgshadow"></div ><a data - click - type = "l_pic"target = "_blank"hidefocus = "true"title = "广州长隆旅游度假区" ><img class = "img_opacity load"src="'+data.data.sightList[i].sightImgURL+'"></a></div></div><div class="sight_item_about"><h3 class="sight_item_caption"><a data-click-type="l_title" class="name"  target="_blank" hidefocus="true">'+data.data.sightList[i].sightName+'</a></h3><div class="sight_item_info"><div class="clrfix"><span class="level">'+data.data.sightList[i].star+'</span><span class = "area"> [<a target = "_blank"hidefocus = "true"> '+data.data.sightList[i].districts+'</a>]</span ><div class = "sight_item_hot" ><span class = "product_star_level" ><em title = "热度3.5/5" ><span style = "width:70%;" > 热度3.5 / 5</span></em ></span><span class="sight_item_hot_text">热度：</span ></div></div><p class = "address color999" ><span> '+data.data.sightList[i].address+'</span><a href="javascript:void(0)" hidefocus="true" class="map_address blue" data-sightid="371131297">地图</a></p><div class="intro color999" >'+data.data.sightList[i].intro+'</div></div></div><div class="sight_item_pop"><table><tbody><tr><td><span class="sight_item_price"><i>￥</i><em>'+data.data.sightList[i].qunarPrice+'</em>&nbsp;起</span></td></tr><tr><td><span class="sight_item_discount">'+data.data.sightList[i].discount+'</span>&nbsp;&nbsp;&nbsp;<span class="sight_item_source">'+data.data.sightList[i].marketPrice+'</span></td></tr><tr><td><a  target="_blank" hidefocus="true" data-click-type="l_title" class="sight_item_do">加入行程&nbsp;<span>»</span></a></td></tr></tbody></table></div></div>');
 					}
+					$('#search-list').show();
 					hover();
 					$('.content-bd').hide();
 					$('.flight-list').hide();
-					$('#search-list').show();
+					$('.flexslider').css('scrollTop', 0);
 				}
 			},
 			error: function(data, err) {
@@ -328,12 +327,12 @@ jQuery(document).ready(function() {
 						$('#J_FlightListBox').append('<div class="flight-list-item clearfix J_FlightItem" data-origin-no="0"><table><tbody><tr class="flight-item-tr"><td class="flight-line"><div class="pi-flightlogo-nl pi-flightlogo-nl-KN"><p class="airline-name"><span class="J_line J_TestFlight">'+data.result[i].complany+'</span></p><p class="line-name">'+data.result[i].name+'</p></div></td><td class="flight-time"><p class="flight-time-deptime">'+data.result[i].DepTime+'</p><p><span class="s-time">'+data.result[i].ArrTime+'</span></p></td><td class="flight-port"><div class="port-detail"><p class="port-dep">'+data.result[i].startAirport+'</p><p class="port-arr">'+data.result[i].endAirport+'</p></div></td><td class="flight-ontime-rate"><p>'+data.result[i].OnTimeRate+'</p></td><td class="flight-price "><p>'+data.result[i].FlyTime+'</p></td><td class="flight-operate"><a target="_blank" hidefocus="true" data-click-type="l_title" class="sight_item_do">加入行程&nbsp;<span>»</span></a></td></tr></tbody></table></div>');
 					}
 				}
+				$('.flight-list').show();
 				hover();
 				$('.content-bd').hide();
 				$('#search-list').hide();
 				$('.content-bd.myList').hide();
-				$('.flexslider').animate({scrollTop:0});
-				$('.flight-list').show();
+				$('.flexslider').css('scrollTop', 0);
 			},
 			error: function(data, err) {
 				alert(12);
@@ -391,4 +390,4 @@ jQuery(document).ready(function() {
 		    return y+"-"+m+"-"+d;
     	}
 	}
-})
+});

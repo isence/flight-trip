@@ -31,6 +31,7 @@ jQuery(document).ready(function() {
 		var left =$('.flexslider').offset().left;
 		$('.sidebar,#accordion').css('left', left);
 		$('.gotop').css('left', left+1205);
+		hasScroll();
 	}
 	function initDate (){
 		var newDate = new Date();
@@ -297,6 +298,7 @@ jQuery(document).ready(function() {
 					$('.content-bd').hide();
 					$('.flight-list').hide();
 					$('#search-list').show();
+					hasScroll();
 				}
 			},
 			error: function(data, err) {
@@ -334,6 +336,7 @@ jQuery(document).ready(function() {
 				$('.content-bd.myList').hide();
 				$('.flexslider').animate({scrollTop:0});
 				$('.flight-list').show();
+				hasScroll();
 			},
 			error: function(data, err) {
 				alert(12);
@@ -391,4 +394,11 @@ jQuery(document).ready(function() {
 		    return y+"-"+m+"-"+d;
     	}
 	}
-})
+	function hasScroll (){
+		if($(".flexslider").scrollTop()>0){
+			$('.gotop ').show();
+		}else{
+			$('.gotop ').hide();
+		}
+	}
+});

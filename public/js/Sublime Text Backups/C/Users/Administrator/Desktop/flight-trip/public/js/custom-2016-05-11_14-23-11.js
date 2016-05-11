@@ -5,7 +5,9 @@
 
 
 jQuery(document).ready(function() {
+
 	$ = jQuery;
+
 	//Flex Slider
 	$('.flexslider').flexslider({
 		animation: "slide"
@@ -30,7 +32,6 @@ jQuery(document).ready(function() {
 		//初始化搜索框位置
 		var left =$('.flexslider').offset().left;
 		$('.sidebar,#accordion').css('left', left);
-		$('.gotop').css('left', left+1205);
 	}
 	function initDate (){
 		var newDate = new Date();
@@ -40,16 +41,33 @@ jQuery(document).ready(function() {
 	}
 	//搜索景点
 	$('#search,#edit').click(function(event) {
-		$('.flexslider').animate({scrollTop:0});
 		search();
 	});
-	//加载更多景点
-	$(".flexslider").scroll(
-	function() {
-		if ($(".flexslider").scrollTop() >= ($("#search-list").height() - $(".flexslider").height()) && $('#search-list').is(":visible")){
-		search();
-	}
-	});
+
+		$contentLoadTriggered = false;
+		$(".flexslider").scroll(
+		function() {
+			if ($(".flexslider").scrollTop() >= ($("#search-list").height() - $(".flexslider").height()) && $contentLoadTriggered == false){
+			$contentLoadTriggered = true;
+			// $.ajax({
+			// 	type: "POST",
+			// 	url: "LoadOnScroll.aspx/GetDataFromServer",
+			// 	data: "{}",
+			// 	contentType: "application/json; charset=utf-8",
+			// 	dataType: "json",
+			// 	async: true,
+			// 	cache: false,
+			// 	success: function(msg) {
+			// 		$("#wrapperDiv").append(msg.d);
+			// 		$contentLoadTriggered = false;
+			// 	},
+			// 	error: function(x, e) {
+			// 		alert("The call to the server side failed. " + x.responseText);
+			// 	}
+			// });
+			search();
+		}
+		});
 	//清空列表景点
 	$('#clear-list').click(function(event) {
 		clearDayList();
@@ -290,13 +308,25 @@ jQuery(document).ready(function() {
 			dataType: "json",
 			success: function(data, status) {
 				if (status == 'success') {
+					//console.log(data.data);
 					for (var i = 0; i < data.data.sightList.length; i++) {
 						$('#search-list').append('<div class = "sight_item_detail clrfix"><div class="sight_item_show"><div class="show loading"><div class="imgshadow"></div ><a data - click - type = "l_pic"target = "_blank"hidefocus = "true"title = "广州长隆旅游度假区" ><img class = "img_opacity load"src="'+data.data.sightList[i].sightImgURL+'"></a></div></div><div class="sight_item_about"><h3 class="sight_item_caption"><a data-click-type="l_title" class="name"  target="_blank" hidefocus="true">'+data.data.sightList[i].sightName+'</a></h3><div class="sight_item_info"><div class="clrfix"><span class="level">'+data.data.sightList[i].star+'</span><span class = "area"> [<a target = "_blank"hidefocus = "true"> '+data.data.sightList[i].districts+'</a>]</span ><div class = "sight_item_hot" ><span class = "product_star_level" ><em title = "热度3.5/5" ><span style = "width:70%;" > 热度3.5 / 5</span></em ></span><span class="sight_item_hot_text">热度：</span ></div></div><p class = "address color999" ><span> '+data.data.sightList[i].address+'</span><a href="javascript:void(0)" hidefocus="true" class="map_address blue" data-sightid="371131297">地图</a></p><div class="intro color999" >'+data.data.sightList[i].intro+'</div></div></div><div class="sight_item_pop"><table><tbody><tr><td><span class="sight_item_price"><i>￥</i><em>'+data.data.sightList[i].qunarPrice+'</em>&nbsp;起</span></td></tr><tr><td><span class="sight_item_discount">'+data.data.sightList[i].discount+'</span>&nbsp;&nbsp;&nbsp;<span class="sight_item_source">'+data.data.sightList[i].marketPrice+'</span></td></tr><tr><td><a  target="_blank" hidefocus="true" data-click-type="l_title" class="sight_item_do">加入行程&nbsp;<span>»</span></a></td></tr></tbody></table></div></div>');
 					}
+					// $('#search-list .sight_item_detail').each(function(index, el) {
+					// 	$(this).find('.sight_item_caption a').text(data.data.sightList[index].sightName);
+					// 	$(this).find('.level').text(data.data.sightList[index].star);
+					// 	$(this).find('.address.color999 span').text(data.data.sightList[index].address);
+					// 	$(this).find('.area a').text(data.data.sightList[index].districts);
+					// 	$(this).find('.sight_item_price em').text(data.data.sightList[index].qunarPrice);
+					// 	$(this).find('.sight_item_discount').text(data.data.sightList[index].discount);
+					// 	$(this).find('.sight_item_source').text(data.data.sightList[index].marketPrice);
+					// 	$(this).find('.intro.color999').text(data.data.sightList[index].intro);
+					// 	$(this).find('.show.loading .img_opacity ').attr('src', data.data.sightList[index].sightImgURL);
+					// 	clearDayList();
+					// });
+					$('#search-list').show();
 					hover();
 					$('.content-bd').hide();
-					$('.flight-list').hide();
-					$('#search-list').show();
 				}
 			},
 			error: function(data, err) {
@@ -327,13 +357,21 @@ jQuery(document).ready(function() {
 					for (var i = 0; i < data.result.length; i++) {
 						$('#J_FlightListBox').append('<div class="flight-list-item clearfix J_FlightItem" data-origin-no="0"><table><tbody><tr class="flight-item-tr"><td class="flight-line"><div class="pi-flightlogo-nl pi-flightlogo-nl-KN"><p class="airline-name"><span class="J_line J_TestFlight">'+data.result[i].complany+'</span></p><p class="line-name">'+data.result[i].name+'</p></div></td><td class="flight-time"><p class="flight-time-deptime">'+data.result[i].DepTime+'</p><p><span class="s-time">'+data.result[i].ArrTime+'</span></p></td><td class="flight-port"><div class="port-detail"><p class="port-dep">'+data.result[i].startAirport+'</p><p class="port-arr">'+data.result[i].endAirport+'</p></div></td><td class="flight-ontime-rate"><p>'+data.result[i].OnTimeRate+'</p></td><td class="flight-price "><p>'+data.result[i].FlyTime+'</p></td><td class="flight-operate"><a target="_blank" hidefocus="true" data-click-type="l_title" class="sight_item_do">加入行程&nbsp;<span>»</span></a></td></tr></tbody></table></div>');
 					}
+					// $('.flight-item-tr').each(function(index, el) {
+					// 	$(this).find('.J_line.J_TestFlight').text(data.result[index].complany);
+					// 	$(this).find('.line-name').text(data.result[index].name);
+					// 	$(this).find('.flight-time-deptime').text(data.result[index].DepTime);
+					// 	$(this).find('.s-time').text(data.result[index].ArrTime);
+					// 	$(this).find('.port-dep').text(data.result[index].startAirport);
+					// 	$(this).find('.port-arr').text(data.result[index].endAirport);
+					// 	$(this).find('.flight-ontime-rate p').text(data.result[index].OnTimeRate);
+					// 	$(this).find('.flight-price p').text(data.result[index].FlyTime);
+					// });
 				}
+				$('.flight-list').show();
 				hover();
 				$('.content-bd').hide();
-				$('#search-list').hide();
 				$('.content-bd.myList').hide();
-				$('.flexslider').animate({scrollTop:0});
-				$('.flight-list').show();
 			},
 			error: function(data, err) {
 				alert(12);
@@ -391,4 +429,4 @@ jQuery(document).ready(function() {
 		    return y+"-"+m+"-"+d;
     	}
 	}
-})
+});

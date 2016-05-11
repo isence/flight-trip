@@ -807,7 +807,12 @@ footer { text-align: center;}
 .footer-nav li a {color: #1C1C1C;padding-right: 15px;border-right: 1px solid #9a9a9a;margin-right:15px;}
 
 footer .gotop { width: 32px;height: 32px; background: url(../images/gotop.png) no-repeat; display: inline-block; }
-
+a.gotop {
+    position: fixed;
+    bottom: 54px;
+    right: 8%;
+    display: none;
+}
 
 
 
@@ -1503,11 +1508,27 @@ a.blue:hover{color:#f60!important}
 .entersafeBox-con p{line-height:24px;width:212px}
 .entersafeBox-narrow{position:absolute;width:11px;height:14px;overflow:hidden;right:-11px;top:19px;background:url("http://simg2.qunarzz.com/piao/images/detail_v3/entersafe_narow.png") left top no-repeat}
 
+span.titleName {
+    width: 213px;
+}
+.flight-title span{display:inline-block;font-weight: 600;padding-left: 21px;}
 
+span.titleTime {
+    width: 107px;
+}
+
+span.titlePort {
+    width: 125px;
+}
+
+span.titleOntime {
+    width: 70px;
+}
 .flight-list {
     background: #fff;
     margin: 5px 0 0 350px;
     display: none;
+    height: 812px;
 }
 
 .flight-list .flight-line {
@@ -1545,6 +1566,7 @@ a.blue:hover{color:#f60!important}
 .flight-list .flight-list-box {
     position: relative;
     width: 840px;
+    height: 812px;
 }
 
 .flight-list .loading-wrapper {

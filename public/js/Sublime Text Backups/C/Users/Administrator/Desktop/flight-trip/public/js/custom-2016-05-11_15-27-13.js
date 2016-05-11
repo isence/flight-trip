@@ -30,7 +30,7 @@ jQuery(document).ready(function() {
 		//初始化搜索框位置
 		var left =$('.flexslider').offset().left;
 		$('.sidebar,#accordion').css('left', left);
-		$('.gotop').css('left', left+1205);
+		$('.gotop').css('left', left+1200);
 	}
 	function initDate (){
 		var newDate = new Date();
@@ -391,4 +391,4 @@ jQuery(document).ready(function() {
 		    return y+"-"+m+"-"+d;
     	}
 	}
-})
+});

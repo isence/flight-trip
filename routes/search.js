@@ -14,7 +14,8 @@ var request = require("request");
 module.exports = function ( app ) {
     app.post('/search', function (req, res) {
       var destination = req.body.destination;
-      var url ='http://piao.qunar.com/ticket/list.json?keyword='+destination+'&region=&from=mps_search_suggest&page=1';
+      var page = req.body.page;
+      var url ='http://piao.qunar.com/ticket/list.json?keyword='+destination+'&region=&from=mps_search_suggest&page='+page+'';
       var data ='';
       request.get(url, function (error, response, body) {
                     if (!error && response.statusCode == 200) {

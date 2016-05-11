@@ -48,6 +48,7 @@ jQuery(document).ready(function() {
 	function() {
 		if ($(".flexslider").scrollTop() >= ($("#search-list").height() - $(".flexslider").height()) && $('#search-list').is(":visible")){
 		search();
+		hasScroll();
 	}
 	});
 	//清空列表景点
@@ -391,4 +392,11 @@ jQuery(document).ready(function() {
 		    return y+"-"+m+"-"+d;
     	}
 	}
-})
+	function hasScroll (){
+		if($(".flexslider").scrollTop() > 0){
+			$('.gotop ').show();
+		}else{
+			$('.gotop ').hide();
+		}
+	}
+});

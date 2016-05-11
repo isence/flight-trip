@@ -3,36 +3,36 @@
     <!-- Main Navigation -->
     <!-- Slider -->
     <div class="flexslider">
-    <!--行程规划-->
+        <!--行程规划-->
         <div class="pa sidebar">
-        <div class="items-panel detail">
-            <h2 id="js-plan-list-head">行程列表
-                <a class="sign-in list-btn" id="create-list">生成列表</a>
-                <a class="sign-in list-btn" id="clear-list">清空行程</a>
-                <div class="location clearfix">
-                    <div class="pull-left">
-                        <div class="date clearfix">
-                            <div class="Depart-Date">
-                                <label>启程日期</label>
-                                <input type="text" name="Location" value="2016-05-04" id="datepicker">
-                            </div>
-                            <div>
-                                <label>返程日期</label>
-                                <input type="text" name="Location" value="2016-05-07" id="clender">
-                            </div>
-                        </div>
-                    </div>
+          <div class="items-panel detail">
+              <h2 id="js-plan-list-head">行程列表
+                  <a class="sign-in list-btn" id="create-list">生成列表</a>
+                  <a class="sign-in list-btn" id="clear-list">清空行程</a>
+                  <div class="location clearfix">
+                      <div class="pull-left">
+                          <div class="date clearfix">
+                              <div class="Depart-Date">
+                                  <label>启程日期</label>
+                                  <input type="text" name="Location" value="2016-05-04" id="datepicker">
+                              </div>
+                              <div>
+                                  <label>返程日期</label>
+                                  <input type="text" name="Location" value="2016-05-07" id="clender">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </h2>
+              <div class="plan-bottom mCustomScrollbar _mCS_1"><div class="mCustomScrollBox mCS-dark-2" id="mCSB_1" style="position:relative; height:100%; overflow:hidden; max-width:100%;"><div class="mCSB_container mCS_no_scrollbar detail" style="position:relative; top:0;">
+                <div class="destination day-container">
+                  <i class="u1 ui-circle-green  fn-click-empty"></i>
+                  <ul class="list destination-list day-list  ui-sortable">
+                 </ul>
                 </div>
-            </h2>
-            <div class="plan-bottom mCustomScrollbar _mCS_1"><div class="mCustomScrollBox mCS-dark-2" id="mCSB_1" style="position:relative; height:100%; overflow:hidden; max-width:100%;"><div class="mCSB_container mCS_no_scrollbar detail" style="position:relative; top:0;">
-              <div class="destination day-container">
-                <i class="u1 ui-circle-green  fn-click-empty"></i>
-                <ul class="list destination-list day-list  ui-sortable">
-               </ul>
-              </div>
-            <div class="added-oneday js-bottom-addday-tag"><a href="javascript:;" title="点击添加一天">+</a></div>
-              </div><div class="mCSB_scrollTools" style="position: absolute; display: none;"><a class="mCSB_buttonUp" oncontextmenu="return false;"></a><div class="mCSB_draggerContainer"><div class="mCSB_dragger" style="position: absolute; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="position:relative;"></div></div><div class="mCSB_draggerRail"></div></div><a class="mCSB_buttonDown" oncontextmenu="return false;"></a></div></div></div>
-        </div>
+              <div class="added-oneday js-bottom-addday-tag"><a href="javascript:;" title="点击添加一天">+</a></div>
+                </div><div class="mCSB_scrollTools" style="position: absolute; display: none;"><a class="mCSB_buttonUp" oncontextmenu="return false;"></a><div class="mCSB_draggerContainer"><div class="mCSB_dragger" style="position: absolute; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="position:relative;"></div></div><div class="mCSB_draggerRail"></div></div><a class="mCSB_buttonDown" oncontextmenu="return false;"></a></div></div></div>
+          </div>
         </div>
         <!-- 查询表格 -->
         <div id="accordion">
@@ -88,6 +88,7 @@
         </div>
         <!-- 航班结果 -->
         <div class="flight-list J_FlightList">
+          <div class="flight-title"><span class="titleName">航班</span><span class="titleTime">起止时间</span><span class="titlePort">起落机场</span><span class="titleOntime">准点率</span><span class="titleCross">飞行时间</span></div>
           <div class="flight-list-box" id="J_FlightListBox">
           </div>
         </div>
@@ -109,7 +110,7 @@
         </div>
         <!-- 添加计划选择 -->
         <dl class="pulldown-menu origin-add-menu" id="origin-add-menu" style="overflow: auto;width: 92px;">
-          <dd></dd>  
+          <dd></dd>
         </dl>
     </div>
     <!-- Slider -->
