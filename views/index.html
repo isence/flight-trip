@@ -98,7 +98,15 @@
         <!--日程表 -->
         <div class="content-bd tripList"><div class="content-top"><p>行程列表</p><a class="sign-in"id="save">保存</a><a class="sign-in"id="edit">编辑</a></div><div class="everyday-box"><div class="stock-day"><em><b>day1</b></em><h2 class="stocklist"></h2></div><div class="stock"></div></div><div class="everyday-box"><div class="stock-day"><em><b>day2</b></em><h2 class="stocklist"></h2></div><div class="stock"></div></div><div class="everyday-box"><div class="stock-day"><em><b>day3</b></em><h2 class="stocklist"></h2></div><div class="stock"></div></div><div class="everyday-box"><div class="stock-day"><em><b>day4</b></em><h2 class="stocklist"></h2></div><div class="stock"></div></div><div class="everyday-box"><div class="stock-day"><em><b>day5</b></em><h2 class="stocklist"></h2></div><div class="stock"></div></div></div>
         <!--我的行程 -->
-        <div class="content-bd myList"><div class="content-top"><p>我的行程</p></div><ul><li>行程1</li><li>行程1</li><li>行程1</li></ul></div>
+        <div class="content-bd myList"><div class="content-top"><p>我的行程</p></div><ul>
+          <%for(var i = 0;i < trip.length; i++){ if(!trip[i])continue;%>
+              <li class="spys li">
+                  <div >
+                      <p ><%=trip[i].day1.trip1.sight%></p>
+                  </div>
+              </li>
+          <%}%>
+        </ul></div>
         <!-- 行程时间选择 -->
         <div class="dn pa-box trip-calendar" >
           <div class="trip-calendar-option">

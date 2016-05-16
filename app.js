@@ -7,9 +7,10 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var session = require('express-session');
 
-global.dbHelper = require( './common/dbHelper' );
 
-global.db = mongoose.connect("mongodb://127.0.0.1:27017/test1");
+
+global.db = mongoose.connect("mongodb://127.0.0.1:27017/test2");
+global.dbHelper = require( './common/dbHelper' );
 app.use(session({
     secret:'secret',
     cookie:{
@@ -53,7 +54,24 @@ app.use(function(req, res, next){
 require('./routes')(app);
 
 app.get('/', function(req, res) {
-    res.render('index');
+    if(req.session.user){
+        var userName = req.session.userName;
+        console.log(userName);
+        User.findOne({name: userName}, function (error, doc) {
+            console.log(doc);
+            if (error) {
+                console.log('err');
+                res.sendStatus(500);
+            } else{
+                console.log('TRIP');
+                res.send(doc.trip);
+            }
+        });
+        res.render('index');
+    }else{
+        req.session.error = "请先登录";
+        res.redirect('/login');
+    }
 });
 console.log('2');
 app.listen(3000);

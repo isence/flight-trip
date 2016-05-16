@@ -18,6 +18,7 @@ module.exports = function ( app ) {
                 req.session.user='';
                 res.sendStatus(404);
             } else {
+                    tripArr = doc.trip;
                     tripArr.push(trip);
                     console.log(tripArr);
                     User.update (
