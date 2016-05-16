@@ -105,7 +105,9 @@
 
                       <% for(var j in trip[i]) {%>
                         <% if (!trip[i][j].trip1.sight) { %>
-                        <span ><%=trip[i][j].trip1.arrCity%></span>
+                        <span ><%=trip[i][j].trip1.depCity%></span>
+                      <img src="/images/plan/edit/airportblue2.png">
+                      <span ><%=trip[i][j].trip1.arrCity%></span>
                       <img src="/images/plan/show/right-arrow.png">
                         <% } else { %>
                         <span ><%=trip[i][j].trip1.sight%></span>
