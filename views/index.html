@@ -101,8 +101,8 @@
         <div class="content-bd myList"><div class="content-top"><p>我的行程</p></div><ul>
           <%for(var i = 0;i < trip.length; i++){ if(!trip[i])continue;%>
               <li class="spys li">
-                  <div class="stocklist">
-
+                  <div class="stocklist destination-name" onclick="renderList(<%=trip[i]%>)">
+                  <em class="ball ball-red"><%=(i+1)%></em>
                       <% for(var j in trip[i]) {%>
                         <% if (!trip[i][j].trip1.sight) { %>
                         <span ><%=trip[i][j].trip1.depCity%></span>
