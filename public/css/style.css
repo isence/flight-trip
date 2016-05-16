@@ -2042,13 +2042,13 @@ span.pi-price.pi-price-lgt {
     font-size: 16px
 }
 
-.everyday-box .stock-day .stocklist img {
+ .stocklist img {
     padding: 0px 12px;
 }
-.everyday-box .stock-day .stocklist img:last-child {
+.stocklist img:last-child {
     display: none;
 }
-.everyday-box .stock-day .stocklist span {color: #069;font-size: 21px;}
+ .stocklist span {color: #09f;font-size: 21px;}
 .everyday-box .stock,.everyday-box .today-budget,.everyday-box .today-memo,.everyday-box .today-traffics {
     padding: 10px;
     background-color: #fff;

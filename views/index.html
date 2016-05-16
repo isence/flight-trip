@@ -101,8 +101,17 @@
         <div class="content-bd myList"><div class="content-top"><p>我的行程</p></div><ul>
           <%for(var i = 0;i < trip.length; i++){ if(!trip[i])continue;%>
               <li class="spys li">
-                  <div >
-                      <p ><%=trip[i].day1.trip1.sight%></p>
+                  <div class="stocklist">
+
+                      <% for(var j in trip[i]) {%>
+                        <% if (!trip[i][j].trip1.sight) { %>
+                        <span ><%=trip[i][j].trip1.arrCity%></span>
+                      <img src="/images/plan/show/right-arrow.png">
+                        <% } else { %>
+                        <span ><%=trip[i][j].trip1.sight%></span>
+                      <img src="/images/plan/show/right-arrow.png">
+                       <% } %>
+                      <% } %>
                   </div>
               </li>
           <%}%>
