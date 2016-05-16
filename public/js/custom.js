@@ -116,12 +116,12 @@ jQuery(document).ready(function() {
 		var img = addParent.find('.show img').attr('src');
 		var thisDay = $(".day-list:eq("+day+")");
 		var count = thisDay.find('li').length;
-		var qidian = $('#homecity_name').val();
-		var zhongdian = $('#getcity_name').val();
+		var depCity = $('#homecity_name').val();
+		var arrCity = $('#getcity_name').val();
 		if (addParent.attr('class').indexOf('sight_item_detail')>-1) {
 			thisDay.append('<li class="sight"> <span class="destination-name"><em class="ball ball-red">'+count+'</em><a href="javascript:;" class="item-name"data-address="'+address+'" data-img="'+img+'">'+destination+'</a></span></li>');
 		} else {
-			thisDay.append('<li class="sight"><span class="qidian">'+qidian+'</span><img class="plane" src="/images/plan/edit/airportblue2.png"><span class="zhongdian">'+zhongdian+'</span><span class="time-msg">06:40</span></li>');
+			thisDay.append('<li class="sight flight"><span class="depCity">'+depCity+'</span><img class="plane" src="/images/plan/edit/airportblue2.png"><span class="arrCity">'+arrCity+'</span><span class="time-msg">06:40</span></li>');
 		}
 		$('#origin-add-menu').hide();
 		thisDay.find('.count').text(count);
@@ -135,10 +135,15 @@ jQuery(document).ready(function() {
 			$(this).find('li.sight').each(function(index, el) {
 				var tripId = 'trip'+(index+1);
 				var des = {};
-				des.sight = $(this).find('a').text();
-				des.num = (index+1);
-				des.address = $(this).find('a').attr('data-address');
-				des.img = $(this).find('a').attr('data-img');
+				if ($(this).attr('class').indexOf('flight') < 0){
+					des.sight = $(this).find('a').text();
+					des.num = (index+1);
+					des.address = $(this).find('a').attr('data-address');
+					des.img = $(this).find('a').attr('data-img');
+				}else{
+					des.depCity = $(this).find('.depCity').text();
+					des.arrCity = $(this).find('.arrCity').text();
+				}
 				dayTrip[tripId] = des;
 			});
 			trip[dayId] = dayTrip;
@@ -188,11 +193,16 @@ jQuery(document).ready(function() {
 		for (var day in trip) {
 			var appendDiv = '<div class="everyday-box"><div class="stock-day"><em><b>'+day+'</b></em><h2 class="stocklist">';
 				for (var des in trip[day]){
-					appendDiv += '<span>'+trip[day][des].sight+'</span> <img src="/images/plan/show/right-arrow.png">';
+					var sight = trip[day][des].sight?trip[day][des].sight:'飞行抵达';
+					appendDiv += '<span>'+sight+'</span> <img src="/images/plan/show/right-arrow.png">';
 				}
 				appendDiv +='</h2></div><div class="stock">';
 				for (var des in trip[day]){
-					appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><div class="row"><div class="title mleft60"><img src="'+trip[day][des].img+'"><div class="summary"><h3 class="name"><span class="spot-name">'+trip[day][des].sight+'</span></h3><div class="address"> '+trip[day][des].address+'</div></div></div></div></div>';
+					if(!trip[day][des].depCity){
+						appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><div class="row"><div class="title mleft60"><img src="'+trip[day][des].img+'"><div class="summary"><h3 class="name"><span class="spot-name">'+trip[day][des].sight+'</span></h3><div class="address"> '+trip[day][des].address+'</div></div></div></div></div>';
+					}else{
+						appendDiv += '<div class="stock-info"><span class="depCity">'+trip[day][des].depCity+'</span><img class="plane" src="/images/plan/edit/airportblue2.png"><span class="arrCity">'+trip[day][des].arrCity+'</span></div>';
+					}
 				}
 				appendDiv +='</div></div>';
       			contentList.append(appendDiv);
@@ -274,8 +284,8 @@ jQuery(document).ready(function() {
 				location.href = 'register';
 			}
 		});
-	};
-
+	}
+	//景点搜索
 	function search() {
 		var destination = encodeURI($('#Descity').val());
 		var page = $('.sight_item_detail ').length > 0 ? $('.sight_item_detail ').length/15+1:1;
@@ -303,13 +313,10 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
-
+	//航班搜索
 	function searchFlight() {
 		var homecity_name = encodeURI($('#homecity_name').val());
 		var getcity_name = encodeURI($('#getcity_name').val());
-		//var datepicker =encodeURI(formatDate($('#datepicker').val()));
-		//var clender =encodeURI(formatDate($('#clender').val()));
-		//var data = { "homecity_name": homecity_name,"getcity_name": getcity_name,"datepicker": datepicker,"clender": clender};
 		var data = {
 			"homecity_name": homecity_name,
 			"getcity_name": getcity_name
@@ -333,12 +340,12 @@ jQuery(document).ready(function() {
 				$('.flight-list').show();
 			},
 			error: function(data, err) {
-				alert(12);
+				alert('查询失败，请输入正确城市');
 			}
 		});
 
 	}
-
+	//日期格式化
 	function formatDate(date) {
 		if (date && date.indexOf('/')>-1) {
 			var arr = date.split('/');

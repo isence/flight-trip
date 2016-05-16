@@ -3,12 +3,12 @@ module.exports = function ( app ) {
           console.log(111111);
       //global.dbHelper.getModel()获取数据库的某个集合
         var User = global.dbHelper.getModel('user'),
-            uname = req.body.uname,
-            tripArr = [];
+            uname = req.body.uname;
             trip = req.body.trip;
             //console.log(uname);
             //console.log(trip);
         User.findOne({name: uname}, function (error, doc) {
+          //console.log(doc);
             if (error) {
                 console.log('err');
                 res.sendStatus(500);
@@ -18,19 +18,8 @@ module.exports = function ( app ) {
                 req.session.user='';
                 res.sendStatus(404);
             } else {
-                    tripArr.push(trip);
-                    console.log(tripArr);
-                    User.update (
-                                    { name : uname},
-                                    { $set : { trip:tripArr } },
-                                    function( err, result ) {
-                                        if ( err ) {
-                                          console.log(555);
-                                          throw err;
-                                        }
-                                    }
-                                );
-                    //User.update({name:uname},{$set:{trip:tripArr}});
+                    doc.trip.push(trip);
+                    User.update({'name':'uname'},{$set:doc});
                     console.log(doc);
                    res.sendStatus(200);
                }
