@@ -2136,7 +2136,10 @@ span.pi-price.pi-price-lgt {
 .everyday-box .stock .stock-info {
     position: relative
 }
-
+.stock-info {
+    padding-left: 58px;
+    margin: 10px;
+}
 .everyday-box .stock .stock-info .index {
     display: block;
     width: 20px;
@@ -2154,7 +2157,7 @@ span.pi-price.pi-price-lgt {
 }
 
 .everyday-box .stock .stock-info .row {
-    margin-left: 58px
+    margin-left: 13px;
 }
 
 .everyday-box .stock .stock-info .row .title {

@@ -101,7 +101,7 @@
         <div class="content-bd myList"><div class="content-top"><p>我的行程</p></div><ul>
           <%for(var i = 0;i < trip.length; i++){ if(!trip[i])continue;%>
               <li class="spys li">
-                  <div class="stocklist destination-name" onclick="renderList(<%=trip[i]%>)">
+                  <div class="stocklist destination-name" onclick="renderList(<%=JSON.stringify(trip[i])%>)">
                   <em class="ball ball-red"><%=(i+1)%></em>
                       <% for(var j in trip[i]) {%>
                         <% if (!trip[i][j].trip1.sight) { %>
@@ -132,6 +132,37 @@
           <dd></dd>
         </dl>
     </div>
+    <script>
+       /**
+       * [renderList description]
+       * @author suanning
+       * @param  {[object]} trip [行程列表生成的对象，也可以数据库导入的对象]
+       * @return
+       */
+    function renderList(trip){
+      var contentList = $('.content-bd.tripList');
+      contentList.find('.everyday-box').remove();
+      for (var day in trip) {
+        var appendDiv = '<div class="everyday-box"><div class="stock-day"><em><b>'+day+'</b></em><h2 class="stocklist">';
+          for (var des in trip[day]){
+            var sight = trip[day][des].sight?trip[day][des].sight:'飞行抵达';
+            appendDiv += '<span>'+sight+'</span> <img src="/images/plan/show/right-arrow.png">';
+          }
+          appendDiv +='</h2></div><div class="stock">';
+          for (var des in trip[day]){
+            if(!trip[day][des].depCity){
+              appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><div class="row"><div class="title mleft60"><img src="'+trip[day][des].img+'"><div class="summary"><h3 class="name"><span class="spot-name">'+trip[day][des].sight+'</span></h3><div class="address"> '+trip[day][des].address+'</div></div></div></div></div>';
+            }else{
+              appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><span class="depCity">'+trip[day][des].depCity+'</span><img class="plane" src="/images/plan/edit/airportblue2.png"><span class="arrCity">'+trip[day][des].arrCity+'</span></div>';
+            }
+          }
+          appendDiv +='</div></div>';
+              contentList.append(appendDiv);
+        }
+        $('.flight-list,#search-list,.content-bd.myList').hide();
+      $('.content-bd.tripList').show();
+    }
+    </script>
     <!-- Slider -->
     <!-- Special Offer -->
 

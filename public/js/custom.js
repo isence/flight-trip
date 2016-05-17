@@ -28,9 +28,11 @@ jQuery(document).ready(function() {
 		var height = $(window).height()-143;
 		$('.flexslider').height(height);
 		//初始化搜索框位置
-		var left =$('.flexslider').offset().left;
-		$('.sidebar,#accordion').css('left', left);
-		$('.gotop').css('left', left+1205);
+		if($('.flexslider').length){
+			var left =$('.flexslider').offset().left;
+			$('.sidebar,#accordion').css('left', left);
+			$('.gotop').css('left', left+1205);
+		}
 	}
 	function initDate (){
 		var newDate = new Date();
@@ -135,9 +137,9 @@ jQuery(document).ready(function() {
 			$(this).find('li.sight').each(function(index, el) {
 				var tripId = 'trip'+(index+1);
 				var des = {};
+				des.num = (index+1);
 				if ($(this).attr('class').indexOf('flight') < 0){
 					des.sight = $(this).find('a').text();
-					des.num = (index+1);
 					des.address = $(this).find('a').attr('data-address');
 					des.img = $(this).find('a').attr('data-img');
 				}else{
@@ -151,10 +153,6 @@ jQuery(document).ready(function() {
 		$(this).data('trip',trip);
 		console.log(trip);
 		renderList(trip);
-		$('.flight-list').hide();
-		$('#search-list').hide();
-		$('.content-bd.myList').hide();
-		$('.content-bd.tripList').show();
 	});
 	//保存行程至数据库
 	$('#save').click(function(event) {
@@ -180,7 +178,6 @@ jQuery(document).ready(function() {
 			}
 		});
 	});
-	//获取某个日期，过n天后的日期
    /**
      * [renderList description]
      * @author suanning
@@ -201,12 +198,14 @@ jQuery(document).ready(function() {
 					if(!trip[day][des].depCity){
 						appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><div class="row"><div class="title mleft60"><img src="'+trip[day][des].img+'"><div class="summary"><h3 class="name"><span class="spot-name">'+trip[day][des].sight+'</span></h3><div class="address"> '+trip[day][des].address+'</div></div></div></div></div>';
 					}else{
-						appendDiv += '<div class="stock-info"><span class="depCity">'+trip[day][des].depCity+'</span><img class="plane" src="/images/plan/edit/airportblue2.png"><span class="arrCity">'+trip[day][des].arrCity+'</span></div>';
+						appendDiv += '<div class="stock-info"><span class="index">'+trip[day][des].num+'</span><span class="depCity">'+trip[day][des].depCity+'</span><img class="plane" src="/images/plan/edit/airportblue2.png"><span class="arrCity">'+trip[day][des].arrCity+'</span></div>';
 					}
 				}
 				appendDiv +='</div></div>';
       			contentList.append(appendDiv);
     	}
+    	$('.flight-list,#search-list,.content-bd.myList').hide();
+		$('.content-bd.tripList').show();
 	}
 	//根据日期间隔天数，生成行程规划列表
 		/**
@@ -237,53 +236,6 @@ jQuery(document).ready(function() {
 	//清空行程列表
 	function clearDayList (){
 		$(".day-list li:not('.title')").remove();
-	}
-	//登录函数
-	function login() {
-		var username = $('#username').val(),
-			password = $('#password').val();
-		var data = {
-			"uname": username,
-			"upwd": password
-		};
-		$.ajax({
-			url: '/login',
-			type: 'POST',
-			data: data,
-			success: function(data, status) {
-				if (status == 'success') {
-					location.href = 'home';
-				}
-			},
-			error: function(data, status) {
-				if (status == "error") {
-					location.href = 'login';
-				}
-			}
-		});
-	}
-	//注册函数
-
-	function register() {
-		var name = $('#username').val(),
-			password = $('#password').val();
-		var data = {
-			"uname": name,
-			upwd: password
-		};
-		$.ajax({
-			url: '/register',
-			type: 'POST',
-			data: data,
-			success: function(data, status) {
-				if (status == 'success') {
-					location.href = 'login';
-				}
-			},
-			error: function(data, err) {
-				location.href = 'register';
-			}
-		});
 	}
 	//景点搜索
 	function search() {
