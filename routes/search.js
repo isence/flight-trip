@@ -1,15 +1,4 @@
 var request = require("request");
-// TopClient = require('./topClient').TopClient;
-// var client = new TopClient({
-//     'appkey': '23354869',
-//     'appsecret': 'ed5b641f00e1bcc05c55565b98f202ef',
-//     'REST_URL': 'http://gw.api.taobao.com/router/rest'
-// });
-// client.execute('taobao.alitrip.travel.tripticket.add', {
-//     'param_publish_trip_ticket_item_param':'json'}, function(error, response) {
-//     if (!error) console.log(response);
-//     else console.log(error);
-// })
 module.exports = function ( app ) {
     app.post('/search', function (req, res) {
       var destination = req.body.destination;

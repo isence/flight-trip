@@ -87,7 +87,7 @@ input,select,a,textarea {
 }
 
 .pa {
-    position: fixed;
+    position: absolute;
 }
 
 .pr {
@@ -803,8 +803,8 @@ li .message_box a:hover,li .users_fun a:hover,li .menu_uers .users_fun_on {
 .sidebar {
     width: 326px;
     height: 340px;
-    left: 140px;
-    top: 94px;
+    left: 10px;
+    top: 5px;
     border-right: 1px solid #dfdfdf;
     box-shadow: 5px 2px 5px rgba(0,0,0,0.1);
     padding-right: 5px;

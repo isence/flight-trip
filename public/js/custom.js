@@ -30,7 +30,7 @@ jQuery(document).ready(function() {
 		//初始化搜索框位置
 		if($('.flexslider').length){
 			var left =$('.flexslider').offset().left;
-			$('.sidebar,#accordion').css('left', left);
+			//$('.sidebar,#accordion').css('left', left-50);
 			$('.gotop').css('left', left+1205);
 		}
 	}
@@ -240,6 +240,7 @@ jQuery(document).ready(function() {
 	//景点搜索
 	function search() {
 		var destination = encodeURI($('#Descity').val());
+		$('#search-list').empty();
 		var page = $('.sight_item_detail ').length > 0 ? $('.sight_item_detail ').length/15+1:1;
 		var data = {
 			"destination": destination,

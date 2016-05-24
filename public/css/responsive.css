@@ -49,7 +49,7 @@
 @media only screen and (min-width: 768px) and (max-width: 959px)
 {
     .detail-one {display: none;}
-    #accordion, #slider_tabs {left: 50px}
+    #slider_tabs {left: 50px}
     nav { display: none;  }
     .responsive_nav {display: block;}
     .srch input[type="text"] {  width: 74%;}

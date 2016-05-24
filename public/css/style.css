@@ -360,7 +360,7 @@ nav > ul > li ul li a:hover { color: #017eba; }
 
 
 
-#accordion, #slider_tabs {width: 331px;position: fixed;left: 140px;top: 445px;z-index: 999;border: 3px solid #0099ff;box-shadow: 5px 2px 5px rgba(0,0,0,0.1);}
+#accordion, #slider_tabs {width: 331px;position: absolute;left: 10px;top: 355px;z-index: 999;border: 3px solid #0099ff;box-shadow: 5px 2px 5px rgba(0,0,0,0.1);}
 
 #accordion h3 {outline:none;cursor: pointer;position: relative;font:14px 'gotham_roundedmedium',Times New Roman, Times, serif;color: #5a656a;padding: 11px 0px;background: #f9f4f0;}
 #accordion h3 span {  font:14px 'gotham_roundedmedium',Times New Roman, Times, serif; color: #5a656a; padding-left: 24px;  text-transform: uppercase;}
